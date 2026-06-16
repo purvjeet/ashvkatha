@@ -1,36 +1,69 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Ashvkatha — Every Thing Matters
 
-## Getting Started
+Ashvkatha is a premium, highly aesthetic web portal dedicated to wildlife rescue, rehabilitation, and conservation. Sponsored and supported by the **Surya Foundation**, Ashvkatha showcases a state-of-the-art interface designed to inspire environmental stewardship and promote the care of injured and orphaned animals.
 
-First, run the development server:
+---
 
+## 🌟 Premium Features
+
+### 1. Seamless Ambient Media
+- **Seamless Dual-Video Loop**: An advanced React-managed double HTML5 video player preloads and loops background footage seamlessly without any black flashes or transition lag.
+- **Ambient Soundtrack**: Integrates Vantara's official ambient audio (meditative tracks) toggled via a premium custom unmute button in the bottom-right corner.
+
+### 2. High-End Visual Transitions
+- **Masked Line Tagline Reveal**: On initial load, the hero tagline words slide up sequentially behind masks for an elegant, premium look.
+- **Header Slide-Down**: The floating capsule navigation bar slides down gently on load.
+- **Scroll reveal triggers**: Integrated React `IntersectionObserver` triggers smooth fade-up entrance transitions as cards and sections enter the viewport.
+- **Staggered Card Entries**: Cards in the News, Initiatives, About, Resources, and Contact pages fade in and slide up with wave-like timing offsets.
+
+### 3. Glassmorphic User Interface
+- A clean off-white canvas featuring frosted glass elements, subtle border glows, and premium serif typography.
+- Fully custom, ultra-thin right-side browser scrollbar that integrates cleanly with the page theme.
+
+---
+
+## 🛠 Tech Stack
+- **Framework**: [Next.js](https://nextjs.org/) (App Router)
+- **Language**: TypeScript
+- **Styling**: Vanilla CSS (Vibrantly styled, Tailwind-free)
+- **Media**: HTML5 Audio & Video APIs
+
+---
+
+## 🚀 Getting Started
+
+### Prerequisites
+- Node.js (v18 or higher recommended)
+- npm or yarn
+
+### Installation
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/purvjeet/ashvkatha.git
+   cd ashvkatha
+   ```
+2. Install dependencies:
+   ```bash
+   npm install
+   ```
+3. Run the development server:
+   ```bash
+   npm run dev
+   ```
+4. Open [http://localhost:3000](http://localhost:3000) to view the portal.
+
+### Linting & Building
+To run the static analysis linting checks:
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+npm run lint
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+To compile a production build:
+```bash
+npm run build
+```
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+---
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## 🤝 Support & Sponsorship
+Financially supported and sponsored by the **Surya Foundation**. Working together for a harmonious co-existence of humans and nature because *every thing matters*.
