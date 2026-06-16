@@ -232,7 +232,7 @@ export const foundersData: FounderItem[] = [
     id: 'founder-1',
     name: 'Smt. R D Gida',
     role: 'Founder of Surya Foundation',
-    quote: 'The Vedas have taught us the profound philosophy of Vasudhaiva Kutumbakam. Ashvkatha stands as a living testament to this belief. M Gida and I are incredibly proud of our son, D M Gida, for creating the world’s largest rescue and rehabilitation centre in Junagadh.'
+    quote: 'The Vedas have taught us the profound philosophy of Vasudhaiva Kutumbakam. Ashvkatha stands as a living testament to this belief. for creating the world’s largest rescue and rehabilitation centre in Junagadh.'
   },
   {
     id: 'founder-2',
