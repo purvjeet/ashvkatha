@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import {
   newsData,
   initiativesData,
@@ -16,11 +16,14 @@ import {
 export default function AshvkathaApp() {
   const [activeSection, setActiveSection] = useState<'home' | 'resources' | 'about' | 'contact'>('home');
 
-  // Background Slider state (only active on home tab, hero section)
-  const backgroundImages = ['/tiger.png', '/elephant.png', '/leopard.png'];
-  const [bgIndex, setBgIndex] = useState(0);
+  const videoRef1 = useRef<HTMLVideoElement>(null);
+  const videoRef2 = useRef<HTMLVideoElement>(null);
+  const audioRef = useRef<HTMLAudioElement>(null);
+
+  // Background Video states (only active on home tab, hero section)
   const [isBgPlaying, setIsBgPlaying] = useState(true);
   const [isSoundOn, setIsSoundOn] = useState(false);
+  const [currentVideoIndex, setCurrentVideoIndex] = useState(0);
 
   // Initiatives accordion
   const [activeInitiative, setActiveInitiative] = useState('init-1');
@@ -44,26 +47,81 @@ export default function AshvkathaApp() {
     requestType: '',
     name: '',
     email: '',
+    phone: '',
     message: '',
     agree: false
   });
   const [formSubmitted, setFormSubmitted] = useState(false);
+  const [uploadedFiles, setUploadedFiles] = useState<string[]>([]);
   const [modalContent, setModalContent] = useState<{ title: string; text: string } | null>(null);
 
-  // Auto transition background slideshow (only runs when on home)
+  // Auto control background video playback for seamless dual-player
   useEffect(() => {
-    if (!isBgPlaying || activeSection !== 'home') return;
-    const interval = setInterval(() => {
-      setBgIndex((prev) => (prev + 1) % backgroundImages.length);
-    }, 6000);
-    return () => clearInterval(interval);
-  }, [isBgPlaying, activeSection]);
+    const vid1 = videoRef1.current;
+    const vid2 = videoRef2.current;
+
+    if (isBgPlaying && activeSection === 'home') {
+      if (currentVideoIndex === 0) {
+        if (vid1) {
+          vid1.play().catch((err) => console.log('Video 1 playback error:', err));
+        }
+        if (vid2) vid2.pause();
+      } else {
+        if (vid2) {
+          vid2.play().catch((err) => console.log('Video 2 playback error:', err));
+        }
+        if (vid1) vid1.pause();
+      }
+    } else {
+      if (vid1) vid1.pause();
+      if (vid2) vid2.pause();
+    }
+  }, [isBgPlaying, activeSection, currentVideoIndex]);
+
+  // Handle ambient background audio (Vantara meditation music)
+  useEffect(() => {
+    const audio = audioRef.current;
+    if (audio) {
+      if (isSoundOn) {
+        audio.play().catch((err) => {
+          console.log('Ambient audio playback error:', err);
+        });
+      } else {
+        audio.pause();
+      }
+    }
+  }, [isSoundOn]);
+
+  // Scroll reveal animation using IntersectionObserver
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('reveal-active');
+          }
+        });
+      },
+      {
+        threshold: 0.05,
+        rootMargin: '0px 0px -50px 0px',
+      }
+    );
+
+    const elements = document.querySelectorAll('.reveal-on-scroll, .reveal-group');
+    elements.forEach((el) => observer.observe(el));
+
+    return () => {
+      elements.forEach((el) => observer.unobserve(el));
+    };
+  }, [activeSection]);
 
   const handleFormSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     setFormSubmitted(true);
     setTimeout(() => {
-      setFormData({ requestType: '', name: '', email: '', message: '', agree: false });
+      setFormData({ requestType: '', name: '', email: '', phone: '', message: '', agree: false });
+      setUploadedFiles([]);
       setFormSubmitted(false);
     }, 4000);
   };
@@ -141,37 +199,61 @@ export default function AshvkathaApp() {
         {/* Render View based on Active Tab State */}
         {activeSection === 'home' && (
           <div>
-            {/* HERO SECTION containing the background carousel */}
-            <div className="hero-wrapper">
-              <div className="bg-carousel">
-                {backgroundImages.map((img, idx) => (
-                  <div
-                    key={img}
-                    className={`bg-slide ${idx === bgIndex ? 'active' : ''}`}
-                    style={{ backgroundImage: `url(${img})` }}
-                  />
-                ))}
-              </div>
+            {/* HERO SECTION containing the background video */}
+             <div className="hero-wrapper">
+              <video
+                ref={videoRef1}
+                src="https://cms.vantara.in/uploads/JUNE_2026_HOMEPAGE_HORIZONTAL_e6ea29466f.mp4"
+                className={`bg-video ${currentVideoIndex === 0 ? 'video-active' : 'video-inactive'}`}
+                muted
+                playsInline
+                autoPlay
+                onEnded={() => {
+                  setCurrentVideoIndex(1);
+                  if (videoRef2.current) {
+                    videoRef2.current.currentTime = 0;
+                  }
+                }}
+              />
+              <video
+                ref={videoRef2}
+                src="https://cms.vantara.in/uploads/JUNE_2026_ABOUT_US_HORIZONTAL_e00b18db3e.mp4"
+                className={`bg-video ${currentVideoIndex === 1 ? 'video-active' : 'video-inactive'}`}
+                muted
+                playsInline
+                onEnded={() => {
+                  setCurrentVideoIndex(0);
+                  if (videoRef1.current) {
+                    videoRef1.current.currentTime = 0;
+                  }
+                }}
+              />
+              <audio
+                ref={audioRef}
+                src="https://cms.vantara.in/uploads/meditation_music_without_nature_sound_256142_4fbaeb3540.mp3"
+                loop
+              />
               <div className="bg-overlay" />
               <div className="hero-content">
                 <h1 className="hero-title">
-                  Advancing the Frontier
+                  <span className="hero-line hero-line-1">{"Advancing the Frontier of"}</span>
+                  <span className="hero-line hero-line-2">{"Rescue, Rehabilitation, and"}</span>
+                  <span className="hero-line hero-line-3">{"Conservation"}</span>
                 </h1>
-                <div className="divider" />
                 <button 
-                  className="btn-primary" 
+                  className="hero-btn" 
                   onClick={() => {
                     setActiveSection('about');
                     window.scrollTo({ top: 0, behavior: 'smooth' });
                   }}
                 >
-                  Learn More
+                  {"Learn More"}
                 </button>
               </div>
             </div>
 
             {/* News & Highlights Section */}
-            <section id="news" className="section-container" style={{ minHeight: 'auto', paddingBottom: '100px' }}>
+            <section id="news" className="section-container reveal-on-scroll" style={{ minHeight: 'auto', paddingBottom: '100px' }}>
               <div className="section-title-wrap">
                 <span className="section-sub">Latest Updates</span>
                 <h2 className="title-line">News & Highlights</h2>
@@ -179,9 +261,9 @@ export default function AshvkathaApp() {
               </div>
 
               <div className="slider-container">
-                <div className="news-grid">
+                <div className="news-grid reveal-group">
                   {newsData.map((item) => (
-                    <div key={item.id} className="news-card glass">
+                    <div key={item.id} className="news-card glass reveal-item">
                       <span className="news-date">{item.date}</span>
                       <h3 className="news-title">{item.title}</h3>
                       <div className="divider" style={{ width: '60px', margin: '12px 0' }} />
@@ -199,14 +281,14 @@ export default function AshvkathaApp() {
             </section>
 
             {/* Initiatives & Care Tabs */}
-            <section id="initiatives" className="section-container" style={{ minHeight: 'auto', paddingBottom: '120px' }}>
+            <section id="initiatives" className="section-container reveal-on-scroll" style={{ minHeight: 'auto', paddingBottom: '120px' }}>
               <div className="section-title-wrap">
                 <span className="section-sub">Our Pillars</span>
                 <h2 className="title-line">Core Initiatives</h2>
                 <div className="divider" />
               </div>
 
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr', gap: '48px', marginBottom: '80px' }}>
+              <div style={{ display: 'grid', gridTemplateColumns: '1fr', gap: '48px', marginBottom: '80px' }} className="reveal-on-scroll">
                 <div className="accordion-wrapper">
                   {initiativesData.map((item) => (
                     <div key={item.id} className="accordion-item">
@@ -237,7 +319,7 @@ export default function AshvkathaApp() {
               </div>
 
               {/* RKTEWT & GZRRC Switcher */}
-              <div className="tabs-header">
+              <div className="tabs-header reveal-on-scroll">
                 <button
                   className={`tab-btn ${activeCareTab === 'rktewt' ? 'active' : ''}`}
                   onClick={() => setActiveCareTab('rktewt')}
@@ -260,9 +342,9 @@ export default function AshvkathaApp() {
                     <p style={{ color: 'var(--text-gray)', marginBottom: '32px', maxWidth: '800px', lineHeight: '1.6' }}>
                       Across 998 acres of protected land, the Radhe Krishna Temple Elephant Welfare Trust (RKTEWT) shelters more than 260 elephants rescued from logging, circuses, and city streets.
                     </p>
-                    <div className="care-grid">
+                    <div className="care-grid reveal-group">
                       {rktewtCards.map((card) => (
-                        <div key={card.id} className="care-card glass">
+                        <div key={card.id} className="care-card glass reveal-item">
                           <h4 className="care-card-title">{card.title}</h4>
                           <div className="divider" style={{ width: '40px' }} />
                           <button
@@ -283,9 +365,9 @@ export default function AshvkathaApp() {
                     <p style={{ color: 'var(--text-gray)', marginBottom: '32px', maxWidth: '800px', lineHeight: '1.6' }}>
                       The Greens Zoological, Rescue and Rehabilitation Centre (GZRRC) provides a safe haven for rescued, injured, and orphaned wildlife in a 3,500+ acre habitat.
                     </p>
-                    <div className="care-grid">
+                    <div className="care-grid reveal-group">
                       {gzrrcCards.map((card) => (
-                        <div key={card.id} className="care-card glass">
+                        <div key={card.id} className="care-card glass reveal-item">
                           <h4 className="care-card-title">{card.title}</h4>
                           <div className="divider" style={{ width: '40px' }} />
                           <button
@@ -307,7 +389,7 @@ export default function AshvkathaApp() {
 
         {/* Section 4: About */}
         {activeSection === 'about' && (
-          <section id="about" className="section-container" style={{ minHeight: '100vh' }}>
+          <section id="about" className="section-container reveal-on-scroll" style={{ minHeight: '100vh' }}>
             <div className="section-title-wrap">
               <span className="section-sub">Where Healing Begins</span>
               <h2 className="title-line">Founding Vision</h2>
@@ -315,42 +397,42 @@ export default function AshvkathaApp() {
             </div>
 
             {/* Founders panel */}
-            <div className="founders-grid">
+            <div className="founders-grid reveal-group">
               {foundersData.map((founder) => (
-                <div key={founder.id} className="founder-card glass">
+                <div key={founder.id} className="founder-card glass reveal-item">
                   <span className="founder-role">{founder.role}</span>
                   <h3 className="founder-name">{founder.name}</h3>
                   <div className="divider" style={{ width: '50px' }} />
-                  <p className="founder-quote">"{founder.quote}"</p>
+                  <p className="founder-quote">{"\""}{founder.quote}{"\""}</p>
                 </div>
               ))}
             </div>
 
             {/* Statistics grid */}
-            <div className="stat-grid">
-              <div className="stat-card glass">
+            <div className="stat-grid reveal-group">
+              <div className="stat-card glass reveal-item">
                 <div className="stat-value">3,500+</div>
                 <div className="stat-label">Acres of Safe Haven</div>
               </div>
-              <div className="stat-card glass">
+              <div className="stat-card glass reveal-item">
                 <div className="stat-value">2,000+</div>
                 <div className="stat-label">Species Protected</div>
               </div>
-              <div className="stat-card glass">
+              <div className="stat-card glass reveal-item">
                 <div className="stat-value">40+</div>
                 <div className="stat-label">Veterinary Clinics</div>
               </div>
             </div>
 
             {/* Nurturing Care Facilities */}
-            <div className="section-title-wrap" style={{ marginTop: '60px' }}>
+            <div className="section-title-wrap reveal-on-scroll" style={{ marginTop: '60px' }}>
               <span className="section-sub">Expert Facilities</span>
               <h2 className="title-line">Nurture and Care</h2>
               <div className="divider" />
             </div>
-            <div className="facilities-grid">
+            <div className="facilities-grid reveal-group">
               {facilitiesData.map((fac) => (
-                <div key={fac.id} className="facility-card glass">
+                <div key={fac.id} className="facility-card glass reveal-item">
                   <h4 className="facility-title">{fac.title}</h4>
                   <div className="divider" style={{ width: '40px', margin: '8px 0' }} />
                   <button
@@ -365,13 +447,13 @@ export default function AshvkathaApp() {
             </div>
 
             {/* Tales of Rescue */}
-            <div className="section-title-wrap" style={{ marginTop: '80px' }}>
+            <div className="section-title-wrap reveal-on-scroll" style={{ marginTop: '80px' }}>
               <span className="section-sub">Hardships to Healing</span>
               <h2 className="title-line">Tales of Rescue</h2>
               <div className="divider" />
             </div>
 
-            <div className="slider-container">
+            <div className="slider-container reveal-on-scroll">
               <div className="slider-wrapper">
                 {rescueTalesData.map((tale, idx) => (
                   <div key={tale.id} className="slider-slide slider-slide-third" style={{ display: idx === activeTaleIndex || idx === (activeTaleIndex + 1) % rescueTalesData.length || idx === (activeTaleIndex + 2) % rescueTalesData.length ? 'block' : 'none' }}>
@@ -421,14 +503,14 @@ export default function AshvkathaApp() {
 
         {/* Section 5: Resources */}
         {activeSection === 'resources' && (
-          <section id="resources" className="section-container" style={{ minHeight: '100vh' }}>
+          <section id="resources" className="section-container reveal-on-scroll" style={{ minHeight: '100vh' }}>
             <div className="section-title-wrap">
               <span className="section-sub">Discoveries & Research</span>
               <h2 className="title-line">Insights & Evolution</h2>
               <div className="divider" />
             </div>
 
-            <div style={{ marginBottom: '40px' }}>
+            <div style={{ marginBottom: '40px' }} className="reveal-on-scroll">
               <div className="filters-container">
                 {['All', 'Media', 'Research Papers', 'General Articles', 'Legal', 'Annual Report'].map((cat) => (
                   <button
@@ -462,9 +544,9 @@ export default function AshvkathaApp() {
             </div>
 
             {/* Resources list */}
-            <div className="resources-grid">
+            <div className="resources-grid reveal-group">
               {sortedResources.map((item) => (
-                <div key={item.id} className="resource-card glass">
+                <div key={item.id} className="resource-card glass reveal-item">
                   <div>
                     <span className="resource-cat">{item.category}</span>
                     <h4 className="resource-title">{item.title}</h4>
@@ -498,91 +580,157 @@ export default function AshvkathaApp() {
 
         {/* Section 6: Contact & FAQ */}
         {activeSection === 'contact' && (
-          <section id="contact" className="section-container" style={{ minHeight: '100vh' }}>
-            <div className="section-title-wrap">
-              <span className="section-sub">Get in Touch</span>
-              <h2 className="title-line">Connect with Us</h2>
-              <div className="divider" />
+          <section id="contact" className="section-container reveal-on-scroll" style={{ minHeight: '100vh', paddingBottom: '100px' }}>
+            <div className="section-title-wrap" style={{ textAlign: 'center', marginBottom: '50px' }}>
+              <span className="section-sub" style={{ fontSize: '0.78rem', letterSpacing: '0.25em', textTransform: 'uppercase', color: 'var(--text-gray)', fontWeight: 'bold', display: 'block', marginBottom: '18px' }}>
+                {"Contact Us"}
+              </span>
+              <h2 style={{
+                fontFamily: "Georgia, serif",
+                fontSize: '2.5rem',
+                fontWeight: 'bold',
+                lineHeight: '1.35',
+                color: 'var(--text-white)',
+                maxWidth: '850px',
+                margin: '0 auto',
+                textAlign: 'center',
+                textTransform: 'none'
+              }}>
+                {"Have a question, idea, or wish"}
+                <br />
+                {"to help animals in need? Get in"}
+                <br />
+                {"touch and be part of our mission"}
+                <br />
+                {"— because every thing matters."}
+              </h2>
             </div>
 
-            <div className="contact-container">
-              <div className="contact-info">
+            <div className="contact-container reveal-group">
+              <div className="contact-info reveal-item">
                 <div className="contact-info-block">
-                  <h4>General Inquiries</h4>
-                  <p>+91 90160 12345</p>
-                  <a href="mailto:contact@ashvkatha.in">contact@ashvkatha.in</a>
+                  <h4>{"For General Queries"}</h4>
+                  <a href="mailto:contact@ashvkatha.in">{"contact@ashvkatha.in"}</a>
+                  <p style={{ marginTop: '4px', fontWeight: 'bold' }}>{"+91 90002 02222"}</p>
                 </div>
                 <div className="contact-info-block">
-                  <h4>Media Contacts</h4>
-                  <p>+91 70160 12345</p>
-                  <a href="mailto:media@ashvkatha.in">media@ashvkatha.in</a>
+                  <h4>{"For Media"}</h4>
+                  <a href="mailto:media@ashvkatha.in">{"media@ashvkatha.in"}</a>
+                  <p style={{ marginTop: '4px', fontWeight: 'bold' }}>{"+91 99002 20002"}</p>
                 </div>
                 <div className="contact-info-block">
-                  <h4>Careers</h4>
-                  <a href="mailto:careers@ashvkatha.in">careers@ashvkatha.in</a>
+                  <h4>{"For Career Opportunities"}</h4>
+                  <a href="mailto:careers@ashvkatha.in">{"careers@ashvkatha.in"}</a>
                 </div>
               </div>
 
               {/* Form */}
-              <div className="glass" style={{ padding: '40px 32px' }}>
+              <div className="glass reveal-item" style={{ padding: '40px 32px' }}>
                 {formSubmitted ? (
                   <div style={{ textAlign: 'center', color: 'var(--accent-green)', padding: '24px 0' }}>
-                    <h3 className="title-line" style={{ fontSize: '1.5rem' }}>Thank You</h3>
-                    <p>Your message has been sent successfully. We will connect with you soon.</p>
+                    <h3 className="title-line" style={{ fontSize: '1.5rem' }}>{"Thank You"}</h3>
+                    <p>{"Your message has been sent successfully. We will connect with you soon."}</p>
                   </div>
                 ) : (
                   <form onSubmit={handleFormSubmit} className="contact-form">
                     <div className="form-group form-full">
-                      <label className="form-label">Type of Request</label>
+                      <label className="form-label">{"Type of Request"}</label>
                       <select
                         className="form-select"
                         required
                         value={formData.requestType}
                         onChange={(e) => setFormData({ ...formData, requestType: e.target.value })}
                       >
-                        <option value="">Select type of request</option>
-                        <option value="partner">Investors and partners</option>
-                        <option value="gov">Government and developing organizations</option>
-                        <option value="research">Researchers and scientists</option>
-                        <option value="volunteer">Volunteers and activists</option>
-                        <option value="donor">Donors and patrons</option>
-                        <option value="media">Media representatives</option>
-                        <option value="student">Students</option>
+                        <option value="">{"Select type of request"}</option>
+                        <option value="partner">{"Investors and partners"}</option>
+                        <option value="gov">{"Government and developing organizations"}</option>
+                        <option value="research">{"Researchers and scientists"}</option>
+                        <option value="volunteer">{"Volunteers and activists"}</option>
+                        <option value="donor">{"Donors and patrons"}</option>
+                        <option value="media">{"Media representatives"}</option>
+                        <option value="student">{"Students"}</option>
                       </select>
                     </div>
 
                     <div className="form-group">
-                      <label className="form-label">Name</label>
+                      <label className="form-label">{"Name"}</label>
                       <input
                         type="text"
                         className="form-input"
                         required
-                        placeholder="Your name"
+                        placeholder="Name"
                         value={formData.name}
                         onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                       />
                     </div>
 
                     <div className="form-group">
-                      <label className="form-label">Email</label>
+                      <label className="form-label">{"Email"}</label>
                       <input
                         type="email"
                         className="form-input"
                         required
-                        placeholder="Your email"
+                        placeholder="Email"
                         value={formData.email}
                         onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                       />
                     </div>
 
                     <div className="form-group form-full">
-                      <label className="form-label">Message</label>
+                      <label className="form-label">{"Phone (Optional)"}</label>
+                      <input
+                        type="tel"
+                        className="form-input"
+                        placeholder="Phone"
+                        value={formData.phone || ''}
+                        onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
+                      />
+                    </div>
+
+                    <div className="form-group form-full">
+                      <label className="form-label">{"Message (Optional)"}</label>
                       <textarea
                         className="form-textarea"
-                        placeholder="Write your query..."
+                        placeholder="Message"
                         value={formData.message}
                         onChange={(e) => setFormData({ ...formData, message: e.target.value })}
                       />
+                    </div>
+
+                    <div className="form-group form-full">
+                      <label className="form-label">{"Attached files (Optional)"}</label>
+                      <div className="file-upload-zone">
+                        <input
+                          type="file"
+                          id="file-upload"
+                          multiple
+                          accept="image/*,application/pdf"
+                          style={{ display: 'none' }}
+                          onChange={(e) => {
+                            if (e.target.files) {
+                              const filesArr = Array.from(e.target.files).slice(0, 5);
+                              setUploadedFiles(filesArr.map(f => f.name));
+                            }
+                          }}
+                        />
+                        <label htmlFor="file-upload" className="file-upload-label" style={{ cursor: 'pointer' }}>
+                          <svg width="24" height="24" fill="currentColor" viewBox="0 0 24 24" style={{ marginBottom: '8px', opacity: 0.7 }}>
+                            <path d="M19.35 10.04C18.67 6.59 15.64 4 12 4 9.11 4 6.6 5.64 5.35 8.04 2.34 8.36 0 10.91 0 14c0 3.31 2.69 6 6 6h13c2.76 0 5-2.24 5-5 0-2.64-2.05-4.78-4.65-4.96zM14 13v4h-4v-4H7l5-5 5 5h-3z" />
+                          </svg>
+                          <span>{"Drag and drop images or PDF files here (Max: 4.45 MB, 5 files total)"}</span>
+                          <span className="btn-upload" style={{ display: 'inline-block', marginTop: '12px', padding: '6px 16px', background: 'rgba(28, 18, 12, 0.08)', borderRadius: '15px', fontSize: '0.78rem', fontWeight: 'bold', color: 'var(--text-white)' }}>{"Upload Files"}</span>
+                        </label>
+                      </div>
+                      {uploadedFiles.length > 0 && (
+                        <div className="uploaded-files-list" style={{ marginTop: '10px' }}>
+                          {uploadedFiles.map((name, i) => (
+                            <div key={i} style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.8rem', background: 'rgba(28,18,12,0.04)', padding: '6px 12px', borderRadius: '6px', marginBottom: '4px', color: 'var(--text-white)' }}>
+                              <span>{name}</span>
+                              <button type="button" onClick={() => setUploadedFiles(prev => prev.filter((_, idx) => idx !== i))} style={{ background: 'none', border: 'none', cursor: 'pointer', color: 'red', fontWeight: 'bold' }}>{"×"}</button>
+                            </div>
+                          ))}
+                        </div>
+                      )}
                     </div>
 
                     <div className="form-group form-full" style={{ marginTop: '8px' }}>
@@ -593,13 +741,13 @@ export default function AshvkathaApp() {
                           checked={formData.agree}
                           onChange={(e) => setFormData({ ...formData, agree: e.target.checked })}
                         />
-                        By submitting this form, I agree to the collection and use of my personal data as per Privacy Policy for marketing purposes.
+                        {"By submitting this form, I agree to the collection and use of my personal data as per Privacy Policy for marketing purposes, including receiving promotional content and updates on products or services."}
                       </label>
                     </div>
 
                     <div className="form-full" style={{ marginTop: '16px' }}>
                       <button type="submit" className="btn-primary" style={{ width: '100%' }}>
-                        Send Message
+                        {"Send Message"}
                       </button>
                     </div>
                   </form>
@@ -608,10 +756,10 @@ export default function AshvkathaApp() {
             </div>
 
             {/* FAQs */}
-            <div style={{ marginTop: '100px' }}>
+            <div style={{ marginTop: '100px' }} className="reveal-on-scroll">
               <div className="section-title-wrap">
-                <span className="section-sub">Common Queries</span>
-                <h2 className="title-line">Frequently Asked Questions</h2>
+                <span className="section-sub">{"Common Queries"}</span>
+                <h2 className="title-line">{"Frequently Asked Questions"}</h2>
                 <div className="divider" />
               </div>
 
@@ -649,30 +797,162 @@ export default function AshvkathaApp() {
         {/* Footer */}
         <footer className="footer">
           <div className="footer-top">
-            <div className="footer-logo-desc">
-              <div className="footer-logo">
-                ashvkatha<span>.</span>
+            {/* Column 1: Info, Socials, stacked contact info */}
+            <div className="footer-info-col">
+              <h3 className="footer-title">{"United for Protection"}</h3>
+              <p className="footer-subtitle">{"An initiative to rescue, protect, and conserve wildlife by Surya Foundation"}</p>
+              
+              <div className="footer-socials">
+                <a href="#" className="social-icon-btn">
+                  <svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M9 8h-3v4h3v12h5v-12h3.642l.358-4h-4v-1.667c0-.955.192-1.333 1.115-1.333h2.885v-5h-3.808c-3.596 0-5.192 1.583-5.192 4.615v3.385z"/>
+                  </svg>
+                </a>
+                <a href="#" className="social-icon-btn">
+                  <svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.051.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 1 0 0 12.324 6.162 6.162 0 0 0 0-12.324zM12 16a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm6.406-11.845a1.44 1.44 0 1 0 0 2.881 1.44 1.44 0 0 0 0-2.881z"/>
+                  </svg>
+                </a>
+                <a href="#" className="social-icon-btn">
+                  <svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M23.498 6.163a3.003 3.003 0 0 0-2.11-2.11C19.518 3.545 12 3.545 12 3.545s-7.518 0-9.388.507a3.003 3.003 0 0 0-2.11 2.11C0 8.033 0 12 0 12s0 3.967.502 5.837a3.003 3.003 0 0 0 2.11 2.11C4.482 20.454 12 20.454 12 20.454s7.518 0 9.388-.507a3.003 3.003 0 0 0 2.11-2.11C24 15.967 24 12 24 12s0-3.967-.502-5.837zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
+                  </svg>
+                </a>
+                <a href="#" className="social-icon-btn">
+                  <svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M4.98 3.5c0 1.381-1.11 2.5-2.48 2.5s-2.48-1.119-2.48-2.5c0-1.38 1.11-2.5 2.48-2.5s2.48 1.12 2.48 2.5zm.02 4.5h-5v16h5v-16zm7.982 0h-4.968v16h4.969v-8.399c0-4.67 6.029-5.052 6.029 0v8.399h4.988v-10.131c0-7.88-8.922-7.593-11.018-3.714v-2.155z"/>
+                  </svg>
+                </a>
               </div>
-              <p className="footer-desc">
-                Advancing the frontier of animal rescue, advanced treatment, and science-led wildlife conservation.
-              </p>
+
+              <div className="footer-contacts-list">
+                <div className="footer-contact-item">
+                  <span className="footer-contact-label">{"FOR GENERAL INQUIRIES"}</span>
+                  <p className="footer-contact-phone">{"+91 90002 02222"}</p>
+                  <a href="mailto:contact@ashvkatha.in" className="footer-contact-email">{"contact@ashvkatha.in"}</a>
+                </div>
+                <div className="footer-contact-item">
+                  <span className="footer-contact-label">{"FOR MEDIA"}</span>
+                  <p className="footer-contact-phone">{"+91 99002 20002"}</p>
+                  <a href="mailto:media@ashvkatha.in" className="footer-contact-email">{"media@ashvkatha.in"}</a>
+                </div>
+                <div className="footer-contact-item">
+                  <span className="footer-contact-label">{"FOR CAREER OPPORTUNITIES"}</span>
+                  <a href="mailto:careers@ashvkatha.in" className="footer-contact-email">{"careers@ashvkatha.in"}</a>
+                </div>
+              </div>
             </div>
-            
-            <div className="footer-partners">
-              <div className="partner-logo">
-                Reliance Foundation<span>.</span>
-              </div>
-              <div className="partner-logo">
-                We<span>Care</span>
+
+            {/* Column 2: Navigation Links */}
+            <div className="footer-links-col">
+              <span className="footer-col-title">{"PAGES"}</span>
+              <a href="#" className="footer-link" onClick={(e) => { e.preventDefault(); setActiveSection('home'); window.scrollTo({ top: 0, behavior: 'smooth' }); }}>{"Home"}</a>
+              <a href="#" className="footer-link" onClick={(e) => { e.preventDefault(); setActiveSection('resources'); window.scrollTo({ top: 0, behavior: 'smooth' }); }}>{"Resources"}</a>
+              <a href="#" className="footer-link" onClick={(e) => { e.preventDefault(); setActiveSection('about'); window.scrollTo({ top: 0, behavior: 'smooth' }); }}>{"About"}</a>
+              <a href="#" className="footer-link" onClick={(e) => { 
+                e.preventDefault(); 
+                setActiveSection('contact'); 
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+              }}>{"Contact Us"}</a>
+              <a href="#" className="footer-link" onClick={(e) => { 
+                e.preventDefault(); 
+                setActiveSection('contact'); 
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+              }}>{"Careers"}</a>
+            </div>
+
+            {/* Column 3: Contact Form Card */}
+            <div className="footer-form-col">
+              <div className="footer-form-card">
+                {formSubmitted ? (
+                  <div className="footer-form-success">
+                    <h3 className="footer-form-success-title">{"Thank You"}</h3>
+                    <p>{"Your message has been sent successfully. We will connect with you soon."}</p>
+                  </div>
+                ) : (
+                  <form onSubmit={handleFormSubmit} className="footer-form">
+                    <div className="footer-form-group">
+                      <select
+                        className="footer-form-select"
+                        required
+                        value={formData.requestType}
+                        onChange={(e) => setFormData({ ...formData, requestType: e.target.value })}
+                      >
+                        <option value="">{"Select type of request"}</option>
+                        <option value="partner">{"Investors and partners"}</option>
+                        <option value="gov">{"Government and developing organizations"}</option>
+                        <option value="research">{"Researchers and scientists"}</option>
+                        <option value="volunteer">{"Volunteers and activists"}</option>
+                        <option value="donor">{"Donors and patrons"}</option>
+                        <option value="media">{"Media representatives"}</option>
+                        <option value="student">{"Students"}</option>
+                      </select>
+                    </div>
+
+                    <div className="footer-form-group">
+                      <input
+                        type="text"
+                        className="footer-form-input"
+                        required
+                        placeholder="Name"
+                        value={formData.name}
+                        onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                      />
+                    </div>
+
+                    <div className="footer-form-group">
+                      <input
+                        type="email"
+                        className="footer-form-input"
+                        required
+                        placeholder="Email"
+                        value={formData.email}
+                        onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                      />
+                    </div>
+
+                    <div className="footer-form-group">
+                      <div className="footer-textarea-label-row">
+                        <span className="footer-textarea-placeholder">{"Message"}</span>
+                        <span className="footer-textarea-optional">{"Optional"}</span>
+                      </div>
+                      <textarea
+                        className="footer-form-textarea"
+                        value={formData.message}
+                        onChange={(e) => setFormData({ ...formData, message: e.target.value })}
+                      />
+                    </div>
+
+                    <div className="footer-form-checkbox-group">
+                      <label className="footer-form-checkbox-label">
+                        <input
+                          type="checkbox"
+                          required
+                          checked={formData.agree}
+                          onChange={(e) => setFormData({ ...formData, agree: e.target.checked })}
+                        />
+                        <span>
+                          {"By submitting this form, I agree to the collection and use of my personal data as per Privacy Policy for marketing purposes, including receiving promotional content and updates on products or services."}
+                        </span>
+                      </label>
+                    </div>
+
+                    <div className="footer-form-submit-row">
+                      <button type="submit" className="footer-form-btn">
+                        {"Send Message"}
+                      </button>
+                    </div>
+                  </form>
+                )}
               </div>
             </div>
           </div>
 
           <div className="footer-bottom">
-            <p>2026 Copyright &copy; All Rights Reserved. Supported by Reliance Foundation.</p>
+            <p>{"2026 Copyright © All Rights Reserved. Financially Supported by Surya Foundation."}</p>
             <div className="footer-links">
-              <a href="#" className="footer-link">Privacy Policy</a>
-              <a href="#" className="footer-link">Terms & Conditions</a>
+              <a href="#" className="footer-link" onClick={(e) => { e.preventDefault(); alert("Mock Privacy Policy: Your data is protected by encryption."); }}>{"Privacy Policy"}</a>
+              <a href="#" className="footer-link" onClick={(e) => { e.preventDefault(); alert("Mock Terms: Use of this site complies with policies of Surya Foundation."); }}>{"Terms & Conditions"}</a>
             </div>
           </div>
         </footer>
@@ -683,7 +963,7 @@ export default function AshvkathaApp() {
         <div className="media-controls">
           <button
             className="control-btn"
-            title={isBgPlaying ? 'Pause Slideshow' : 'Play Slideshow'}
+            title={isBgPlaying ? 'Pause Video' : 'Play Video'}
             onClick={() => setIsBgPlaying(!isBgPlaying)}
           >
             {isBgPlaying ? (
@@ -699,11 +979,8 @@ export default function AshvkathaApp() {
 
           <button
             className="control-btn"
-            title={isSoundOn ? 'Sound On' : 'Sound Off'}
-            onClick={() => {
-              setIsSoundOn(!isSoundOn);
-              alert(`Mock Ambient Sound: ${!isSoundOn ? 'Enabled (playing tranquil nature audio)' : 'Disabled'}`);
-            }}
+            title={isSoundOn ? 'Mute' : 'Unmute'}
+            onClick={() => setIsSoundOn(!isSoundOn)}
           >
             {isSoundOn ? (
               <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24">

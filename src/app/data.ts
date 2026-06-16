@@ -60,8 +60,8 @@ export const newsData: NewsItem[] = [
   {
     id: 'news-1',
     date: '28 Apr 2026',
-    title: 'Anant Ambani urges Colombia to stay lethal removal of 80 hippos',
-    desc: 'Anant Ambani urges Colombia to stay lethal removal of 80 hippos, offering a permanent home and lifelong care at Ashvkatha.'
+    title: 'Shri. D M Gida urges Colombia to stay lethal removal of 80 hippos',
+    desc: 'Shri. D M Gida urges Colombia to stay lethal removal of 80 hippos, offering a permanent home and lifelong care at Ashvkatha.'
   },
   {
     id: 'news-2',
@@ -168,8 +168,8 @@ export const timelineData: TimelineItem[] = [
   {
     id: 'time-3',
     title: 'Global Humanitarian Award',
-    subtitle: 'Shri Anant Ambani Honoured',
-    desc: 'Our founder, Shri Anant Ambani, became the youngest and first Asian to receive a global honour for wildlife conservation.'
+    subtitle: 'Shri. D M Gida Honoured',
+    desc: 'Our founder, Shri. D M Gida, became the youngest and first Asian to receive a global honour for wildlife conservation.'
   },
   {
     id: 'time-4',
@@ -230,19 +230,19 @@ export const timelineData: TimelineItem[] = [
 export const foundersData: FounderItem[] = [
   {
     id: 'founder-1',
-    name: 'Smt. Nita Mukesh Ambani',
-    role: 'Founder of Reliance Foundation',
-    quote: 'The Vedas have taught us the profound philosophy of Vasudhaiva Kutumbakam. Ashvkatha stands as a living testament to this belief. Mukesh and I are incredibly proud of our son, Anant, for creating the world’s largest rescue and rehabilitation centre in Jamnagar.'
+    name: 'Smt. R D Gida',
+    role: 'Founder of Surya Foundation',
+    quote: 'The Vedas have taught us the profound philosophy of Vasudhaiva Kutumbakam. Ashvkatha stands as a living testament to this belief. M Gida and I are incredibly proud of our son, D M Gida, for creating the world’s largest rescue and rehabilitation centre in Junagadh.'
   },
   {
     id: 'founder-2',
-    name: 'Late. Shri. Dhirubhai Ambani',
+    name: 'Late. Shri. M Gida',
     role: 'Founding Visionary',
-    quote: 'Late. Shri. Dhirubhai Ambani transformed Jamnagar by establishing a refinery on once-barren land. His visionary efforts to preserve India’s natural heritage laid the foundation for Ashvkatha, inspired by biodiversity preservation.'
+    quote: 'Late. Shri. M Gida transformed Junagadh by establishing a refinery on once-barren land. His visionary efforts to preserve India’s natural heritage laid the foundation for Ashvkatha, inspired by biodiversity preservation.'
   },
   {
     id: 'founder-3',
-    name: 'Shri. Anant Mukesh Ambani',
+    name: 'Shri. D M Gida',
     role: 'Our Founder',
     quote: 'I see God in animals and Ashvkatha is my temple. It is born from a belief that every being, no matter how big or small, deserves dignity, care, freedom, and a chance to heal and live. We are not just saving animals; we are healing ecosystems.'
   }
@@ -262,6 +262,12 @@ export const facilitiesData: FacilityItem[] = [
 ];
 
 export const rescueTalesData: RescueItem[] = [
+  {
+    id: 'tale-lakshmi',
+    title: 'Lakshmi Elephant',
+    subtitle: 'Healing a Severe Foot Infection',
+    desc: 'Rescued in 2024 with a chronic, severe foot infection, Lakshmi required intensive veterinary care, specialized hydrotherapy, and custom orthopedic boots. Over 6 months of dedicated rehabilitation, her wounds fully healed, her pain subsided, and she made a complete, inspiring recovery.'
+  },
   {
     id: 'tale-1',
     title: 'Rosie Tapir',
@@ -328,7 +334,7 @@ export const resourcesData: ResourceItem[] = [
   {
     id: 'res-3',
     category: 'Media',
-    title: 'Anant Ambani Appeals to Colombia to Save 80 Hippos',
+    title: 'Shri. D M Gida Appeals to Colombia to Save 80 Hippos',
     desc: 'Ashvkatha Founder formally petitions the Government of Colombia, offering scientific, operational and financial support to safely capture.'
   },
   {
@@ -401,7 +407,7 @@ export const resourcesData: ResourceItem[] = [
     id: 'res-15',
     category: 'General Articles',
     title: 'CITES Secretariat highlights high standards at Ashvkatha',
-    desc: 'A recent report by the Secretariat of CITES has highlighted the world-class standards of animal care and treatment in Jamnagar.'
+    desc: 'A recent report by the Secretariat of CITES has highlighted the world-class standards of animal care and treatment in Junagadh.'
   },
   {
     id: 'res-16',
@@ -425,7 +431,7 @@ export const resourcesData: ResourceItem[] = [
     id: 'res-19',
     category: 'Legal',
     title: 'Lawful and Ethical Operations Verified by SC Team',
-    desc: 'Independent probe confirms the Jamnagar facility meets international welfare standards, rejecting private collection claims.'
+    desc: 'Independent probe confirms the Junagadh facility meets international welfare standards, rejecting private collection claims.'
   },
   {
     id: 'res-20',
@@ -443,7 +449,7 @@ export const resourcesData: ResourceItem[] = [
     id: 'res-22',
     category: 'Media',
     title: 'Ashvkatha Veterinary Course on Conservation Medicine',
-    desc: 'Ashvkatha inaugurates flagship Veterinary Training Course on Introduction to Conservation Medicine at Jamnagar.'
+    desc: 'Ashvkatha inaugurates flagship Veterinary Training Course on Introduction to Conservation Medicine at Junagadh.'
   },
   {
     id: 'res-23',
@@ -527,7 +533,7 @@ export const resourcesData: ResourceItem[] = [
     id: 'res-36',
     category: 'Media',
     title: 'ACTP & Ashvkatha Partner to Reintroduce 41 Spix’s Macaws to Brazil',
-    desc: 'Declared extinct in the wild in 2000, macaws are reintroduced from Jamnagar facilities to native Caatinga habitats.'
+    desc: 'Declared extinct in the wild in 2000, macaws are reintroduced from Junagadh facilities to native Caatinga habitats.'
   },
   {
     id: 'res-37',
@@ -545,7 +551,7 @@ export const resourcesData: ResourceItem[] = [
     id: 'res-39',
     category: 'Legal',
     title: 'Gauhati HC Permits Transfer of Black Panther',
-    desc: 'Court finds no legal or factual basis to block transfers to GZRRC Jamnagar under Central Zoo Authority guidelines.'
+    desc: 'Court finds no legal or factual basis to block transfers to GZRRC Junagadh under Central Zoo Authority guidelines.'
   },
   {
     id: 'res-40',
@@ -581,7 +587,7 @@ export const resourcesData: ResourceItem[] = [
     id: 'res-45',
     category: 'Legal',
     title: 'Delhi HC Upholds Hippopotamus Chotu Lifetime Custody',
-    desc: 'The Court accepted AWBI findings that Chotu the Hippo was well cared for at Jamnagar and allowed custody.'
+    desc: 'The Court accepted AWBI findings that Chotu the Hippo was well cared for at Junagadh and allowed custody.'
   },
   {
     id: 'res-46',
@@ -598,15 +604,15 @@ export const faqData: FAQItem[] = [
   },
   {
     question: 'Where is Ashvkatha located, and which areas does it serve?',
-    answer: 'Ashvkatha is located across 3,500+ acres in Jamnagar, Gujarat, India. It serves as a national and global hub, accepting rescued and compromised wildlife from across India and international conflict zones.'
+    answer: 'Ashvkatha is located across 3,500+ acres in Junagadh, Gujarat, India. It serves as a national and global hub, accepting rescued and compromised wildlife from across India and international conflict zones.'
   },
   {
     question: 'What kind of animals does Ashvkatha rescue and rehabilitate?',
     answer: 'We shelter over 150,000 animals representing 2,000+ species, including elephants, leopards, lions, bears, reptiles (crocodiles, tegus), and exotic birds (macaws, snake-necked turtles).'
   },
   {
-    question: 'Why was Ashvkatha established, and how does it align with Reliance Foundation’s vision?',
-    answer: 'Ashvkatha was established by Shri. Anant Ambani under the sponsorship of Reliance Foundation. It embodies the Vedic philosophy of "Vasudhaiva Kutumbakam" (the world is one family) and the WeCare initiative, ensuring every life is valued.'
+    question: 'Why was Ashvkatha established, and how does it align with Surya Foundation’s vision?',
+    answer: 'Ashvkatha was established by Shri. D M Gida under the sponsorship of Surya Foundation. It embodies the Vedic philosophy of "Vasudhaiva Kutumbakam" (the world is one family) and the WeCare initiative, ensuring every life is valued.'
   },
   {
     question: 'Is Ashvkatha open to visitors?',
