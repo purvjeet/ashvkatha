@@ -50,7 +50,7 @@ Ashvkatha is a premium, highly aesthetic web portal dedicated to wildlife rescue
    ```bash
    npm run dev
    ```
-4. Open [http://localhost:3000](http://localhost:3000) to view the portal.
+4. Open [https://ashvkatha.vercel.app/](https://ashvkatha.vercel.app/) to view the portal.
 
 ### Linting & Building
 To run the static analysis linting checks:
