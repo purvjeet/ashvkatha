@@ -15,6 +15,7 @@ export interface CareCard {
   id: string;
   title: string;
   desc: string;
+  image?: string;
 }
 
 export interface TimelineItem {
@@ -61,25 +62,97 @@ export const newsData: NewsItem[] = [
     id: 'news-1',
     date: '28 Apr 2026',
     title: 'Shri. D M Gida urges Colombia to stay lethal removal of 80 hippos',
-    desc: 'Shri. D M Gida urges Colombia to stay lethal removal of 80 hippos, offering a permanent home and lifelong care at Ashvkatha.'
+    desc: 'Shri. D M Gida has formally urged the Colombian government to suspend the lethal removal of 80 hippos introduced to the region decades ago. In a comprehensive proposal, Ashvkatha has offered to capture, relocate, and provide a permanent home and lifelong care for these animals at our state-of-the-art facility in Junagadh. This initiative will prevent culling while safeguarding local ecological balances.'
   },
   {
     id: 'news-2',
     date: '9 Apr 2026',
     title: 'Ashvkatha launches global university for wildlife, veterinary sciences',
-    desc: 'Envisioned as a modern-day Gurukul, the varsity aims to position India as a global hub for wildlife and veterinary education.'
+    desc: 'Envisioned as a modern-day Gurukul, the newly launched varsity aims to position India as a global hub for wildlife conservation education and advanced veterinary medicine. The institution features world-class lecture halls, research facilities, and hands-on diagnostic training with expert veterinary professionals, offering students unparalleled learning opportunities.'
   },
   {
     id: 'news-3',
     date: '7 Mar 2026',
     title: 'Ashvkatha Offers Lifelong Care to 50 Leopards from Maharashtra',
-    desc: 'Ashvkatha has offered lifelong care to leopards rescued from human-wildlife conflict areas at the request of the Maharashtra Forest Dept.'
+    desc: 'At the request of the Maharashtra Forest Department, Ashvkatha has opened its gates to offer lifelong veterinary care, customized nutrition, and secure, natural habitats to 50 leopards rescued from high-conflict areas. This intervention helps reduce human-wildlife encounters while ensuring these majestic big cats live out their lives in peace.'
   },
   {
     id: 'news-4',
     date: '2 Mar 2026',
     title: 'On Ashvkatha Foundation Day, milestones marked in rescue & care',
-    desc: 'Ashvkatha marks significant milestones in rescue, advanced medical care, and science-led wildlife conservation.'
+    desc: 'Ashvkatha celebrated its anniversary by marking significant milestones, including rescuing over 150,000 animals, providing 24/7 advanced medical treatment, and rewilding native species. The event highlighted our ongoing dedication to science-led wildlife conservation and compassionate, modern animal husbandry.'
+  },
+  {
+    id: 'news-5',
+    date: '18 May 2026',
+    title: 'AI-Powered Bioacoustic Monitoring System Deployed in Junagadh Forests',
+    desc: 'Ashvkatha has deployed an advanced AI-powered bioacoustic network across surrounding forest corridors. The smart microphones detect vocalizations, distress signals, and vehicle sounds in real time, alerting rangers to animal movement and potential poaching activities, paving the way for tech-led conservation.'
+  },
+  {
+    id: 'news-6',
+    date: '24 May 2026',
+    title: 'Smart Collars with Edge-AI Help Predict Elephant Crop-Raiding Patterns',
+    desc: 'In cooperation with international engineering groups, Ashvkatha has introduced lightweight GPS collars fitted with Edge-AI. The collars analyze behavioral acceleration to predict when elephants are likely to move toward agricultural lands, enabling non-invasive deterrents and reducing conflict.'
+  },
+  {
+    id: 'news-7',
+    date: '30 May 2026',
+    title: '3D-Printed Prosthetic Beak Restores Feeding for Rescued Great Hornbill',
+    desc: 'Veterinary engineers at Ashvkatha designed and fitted a customized, lightweight 3D-printed prosthetic beak for a rescued Great Hornbill that lost its upper beak in an accident. The bird successfully adapted to the prosthesis within hours and has resumed independent feeding and preening.'
+  },
+  {
+    id: 'news-8',
+    date: '3 Jun 2026',
+    title: 'Satellite Tracking Reveals Mysterious Migratory Path of Amur Falcons',
+    desc: 'Researchers at our avian division have fitted lightweight solar-powered satellite transmitters on five rescued and rehabilitated Amur Falcons. The tracked data is revealing detailed migratory stopovers, showing how winds and topography shape their cross-continental flight.'
+  },
+  {
+    id: 'news-9',
+    date: '6 Jun 2026',
+    title: 'Critical Nesting Sites of Endangered Indian Vultures Protected in Gir Region',
+    desc: 'Ashvkatha, in partnership with local community organizations, has successfully fenced off and secured key nesting cliffs of the critically endangered Indian Vulture. The project includes community-led monitoring and supplementary feeding stations to ensure chick survival rates.'
+  },
+  {
+    id: 'news-10',
+    date: '10 Jun 2026',
+    title: 'Acoustic AI Detects Critically Endangered Bird Calls in Dense Canopies',
+    desc: 'By training deep learning models on unique avian calls, our research team has successfully detected vocal signatures of critically endangered forest birds that are rarely seen. This technology allows researchers to map population distributions without disturbing nesting behaviors.'
+  },
+  {
+    id: 'news-11',
+    date: '12 Jun 2026',
+    title: 'Global Collaboration Rescues 12 Circus Lions, Relocating Them to Gujarat Sanctuaries',
+    desc: 'Through a coordinated international effort, Ashvkatha has welcomed 12 elderly lions rescued from closed circuses. The lions, suffering from dental issues and joint pain, are undergoing specialized veterinary checkups and have been given spacious, grass-covered enclosures to enjoy their retirement.'
+  },
+  {
+    id: 'news-12',
+    date: '13 Jun 2026',
+    title: 'Veterinary Medicine Breakthrough: Stem Cell Therapy Heals Injured Elephant Joints',
+    desc: 'Our clinical specialists have successfully administered advanced stem-cell therapy to alleviate chronic joint inflammation in three geriatric rescued elephants. The non-invasive treatment has significantly improved their range of motion and reduced their reliance on daily pain medication.'
+  },
+  {
+    id: 'news-13',
+    date: '14 Jun 2026',
+    title: 'Thermal Drones Used to Safely Rescue Leopards from Sugarcane Fields',
+    desc: 'Ashvkatha rescue rangers have successfully integrated thermal-imaging drones to locate hidden leopard cubs in dense sugarcane fields during harvesting season. This allows farmers to harvest safely while preventing accidental injuries to young leopards.'
+  },
+  {
+    id: 'news-14',
+    date: '15 Jun 2026',
+    title: 'Vara-Falcon Center Celebrates Successful Rewilding of 15 Rescued Birds of Prey',
+    desc: 'Fifteen rescued birds of prey, including eagles, falcons, and owls, were successfully released back into the wild after undergoing intensive flight muscle conditioning at our custom conditioning aviary, ensuring they are fully prepared for hunting in the wild.'
+  },
+  {
+    id: 'news-15',
+    date: '16 Jun 2026',
+    title: 'Ashvkatha Extends Lifelong Rehabilitation to Rescued Marine Turtles',
+    desc: 'A newly constructed marine care center at Ashvkatha is providing specialized rehabilitation for green turtles and olive ridleys injured by marine debris and boat strikes. The center features buoyancy-correcting tanks, laser therapy, and veterinary monitoring.'
+  },
+  {
+    id: 'news-16',
+    date: '17 Jun 2026',
+    title: 'Ashvkatha Veterinary Hospital Installs South Asia\'s First Wildlife CT Scanner',
+    desc: 'Our main veterinary hospital has completed the installation of a customized, heavy-duty CT scanner designed specifically for large wildlife. This scanner allows fast, high-resolution diagnostic imaging of big cats, bears, and other animals under anesthesia, facilitating precise surgical planning.'
   }
 ];
 
@@ -110,22 +183,26 @@ export const rktewtCards: CareCard[] = [
   {
     id: 'rk-1',
     title: 'Hydrotherapy for Gentle Giants',
-    desc: 'Targeted pressurised jets gently massage the body to ease arthritis and joint pain, improve circulation, and support healing in elephants with chronic strain.'
+    desc: 'Targeted pressurised jets gently massage the body to ease arthritis and joint pain, improve circulation, and support healing in elephants with chronic strain.',
+    image: 'https://cms.vantara.in/uploads/Elephant_Jacuzzi_Bath_4f62e4eeb7.jpg'
   },
   {
     id: 'rk-2',
     title: 'Advanced Elephant Surgery Care',
-    desc: 'State-of-the-art facilities and expert veterinarians perform advanced surgeries that restore mobility, vision, and overall quality of life for elephants.'
+    desc: 'State-of-the-art facilities and expert veterinarians perform advanced surgeries that restore mobility, vision, and overall quality of life for elephants.',
+    image: 'https://cms.vantara.in/uploads/A92_I8654_6f62e26b5d.jpg'
   },
   {
     id: 'rk-3',
     title: 'Ayurvedic Healing Oil Therapy',
-    desc: 'Rooted in Ayurveda, therapeutic oil massages calm the body, ease chronic discomfort, and support deeper healing and long-term physical balance.'
+    desc: 'Rooted in Ayurveda, therapeutic oil massages calm the body, ease chronic discomfort, and support deeper healing and long-term physical balance.',
+    image: 'https://cms.vantara.in/uploads/Oil_Massage_Of_Elephant_c5fbc9b832.jpg'
   },
   {
     id: 'rk-4',
     title: 'Food Enrichment for Elephants',
-    desc: 'From puzzle feeders to hidden treats, food enrichment keeps elephants mentally engaged, physically active, and connected to natural foraging instincts.'
+    desc: 'From puzzle feeders to hidden treats, food enrichment keeps elephants mentally engaged, physically active, and connected to natural foraging instincts.',
+    image: 'https://cms.vantara.in/uploads/Trunks_of_Elephants_e5425b938a.jpg'
   }
 ];
 
@@ -133,22 +210,26 @@ export const gzrrcCards: CareCard[] = [
   {
     id: 'gz-1',
     title: 'Advanced Wildlife Ambulance Care',
-    desc: 'GZRRC operates one of India’s most advanced wildlife ambulances, safely transporting animals of all sizes using climate control and specialised medical equipment.'
+    desc: 'GZRRC operates one of India’s most advanced wildlife ambulances, safely transporting animals of all sizes using climate control and specialised medical equipment.',
+    image: 'https://cms.vantara.in/uploads/Animal_Ambulances_Fleet_Vantara_58795bf37d.jpg'
   },
   {
     id: 'gz-2',
     title: 'Cooperative Care Through Training',
-    desc: 'Positive reinforcement builds trust between animals and handlers by replacing restraint with cooperation, allowing animals to participate willingly in their own care.'
+    desc: 'Positive reinforcement builds trust between animals and handlers by replacing restraint with cooperation, allowing animals to participate willingly in their own care.',
+    image: 'https://cms.vantara.in/uploads/Holistic_Animal_Welfare_Jun_26_f7955fb043.jpg'
   },
   {
     id: 'gz-3',
     title: 'Science-Led Nutrition Programs',
-    desc: 'At GZRRC, nutrition is engineered with scientific accuracy, ensuring every animal receives a personalised, nutrient-rich diet that supports healing and vitality.'
+    desc: 'At GZRRC, nutrition is engineered with scientific accuracy, ensuring every animal receives a personalised, nutrient-rich diet that supports healing and vitality.',
+    image: 'https://cms.vantara.in/uploads/Animal_Nutrition_Center_1_Nov_25_f96c3d6664.JPG'
   },
   {
     id: 'gz-4',
     title: 'Healing Through Social Bonds',
-    desc: 'Carefully planned introductions help animals form stable social groups, reducing stress, improving well-being, and supporting emotional recovery through natural companionship.'
+    desc: 'Carefully planned introductions help animals form stable social groups, reducing stress, improving well-being, and supporting emotional recovery through natural companionship.',
+    image: 'https://cms.vantara.in/uploads/Kingdom_of_Leopards_921828dfa5.jpg'
   }
 ];
 
