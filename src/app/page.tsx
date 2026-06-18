@@ -32,12 +32,9 @@ const GALLERY_POOL = [
   "https://cms.vantara.in/uploads/Savannah_Plains_413f42d26b.jpg",
   "https://cms.vantara.in/uploads/Leopard_Aerieal_View_3566a2cab0.jpg",
   "https://cms.vantara.in/uploads/Adult_Lions_0f0d9ee669.jpeg",
-  "https://cms.vantara.in/uploads/Elephant_in_Hydrotherapy_Pool_759afd64ed.jpg",
   "https://cms.vantara.in/uploads/Tarzan_Elephant_cf18e56318.jpg",
   "https://cms.vantara.in/uploads/Indian_Leopard_Landscape_1_1686fc5d60.jpg",
-  "https://cms.vantara.in/uploads/image_7_0abeaa24f5.jpg",
-  "https://cms.vantara.in/uploads/image_8_db4e09eeee.jpg",
-  "https://cms.vantara.in/uploads/image_9_246a5a3033.jpg"
+  "https://cms.vantara.in/uploads/image_8_db4e09eeee.jpg"
 ];
 
 const HEALING_SLIDES = [
@@ -45,7 +42,7 @@ const HEALING_SLIDES = [
     label: "ACRES OF SAFE HAVEN",
     value: "3,500+",
     text: "Set within vast, carefully designed grounds in Junagadh, Ashvkatha is equipped with state-of-the-art facilities.",
-    bgColor: "#013a2b",
+    bgColor: "#000000",
     videoUrl: "https://cms.vantara.in/uploads/desktop_parrot_3456e1d113.mp4",
     coverUrl: "https://cms.vantara.in/uploads/01_Desktop_Parrot_0001_2d10123364.jpg",
     btnText: "See Area"
@@ -54,7 +51,7 @@ const HEALING_SLIDES = [
     label: "SPECIES PROTECTED",
     value: "2,000+",
     text: "Ashvkatha is home to a rich diversity of rescued species who thrive in thoughtfully designed habitats.",
-    bgColor: "#1E1916",
+    bgColor: "#000000",
     videoUrl: "https://cms.vantara.in/uploads/desktop_jaguar_9124c11945.mp4",
     coverUrl: "https://cms.vantara.in/uploads/02_Desktop_Jaguar_0001_3e8acc25e9.jpg",
     btnText: "See Species"
@@ -63,7 +60,7 @@ const HEALING_SLIDES = [
     label: "DEDICATED STAFF",
     value: "3,500+",
     text: "Behind Ashvkatha’s success is a dedicated team of experts and caregivers working round the clock to support recovery.",
-    bgColor: "#42312A",
+    bgColor: "#000000",
     videoUrl: "https://cms.vantara.in/uploads/desktop_giraffe_0ef8634ced.mp4",
     coverUrl: "https://cms.vantara.in/uploads/03_Desktop_Giraffe_0001_267ed80a1e.jpg",
     btnText: "See Staff"
@@ -451,35 +448,9 @@ export default function AshvkathaApp() {
 
             {/* Core Initiatives Section */}
             <section id="initiatives" className="section-container reveal-on-scroll" style={{ minHeight: 'auto', paddingBottom: '120px' }}>
-              <div className="section-title-wrap">
-                <span className="section-sub">Our Pillars</span>
-                <h2 className="title-line">Core Initiatives</h2>
-                <div className="divider" />
-              </div>
-
               <div className="mission-grid">
-                <div className="mission-left">
-                  <div className="mission-image-frame">
-                    {initiativesData.map((item) => {
-                      let imgUrl = "";
-                      if (item.id === 'init-1') imgUrl = "https://cms.vantara.in/uploads/Rescue_And_Recovery_Jun_26_463d31b9cc.jpg";
-                      else if (item.id === 'init-2') imgUrl = "https://cms.vantara.in/uploads/Treatment_And_Care_Jun_26_2dbaa71af8.jpg";
-                      else if (item.id === 'init-3') imgUrl = "https://cms.vantara.in/uploads/Rehabilitation_Support_Jun_26_55df7e1e73.JPG";
-                      else if (item.id === 'init-4') imgUrl = "https://cms.vantara.in/uploads/Conservation_Breeding_Rewilding_Jun_26_011eb6d68e.jpg";
-
-                      return (
-                        <img
-                          key={item.id}
-                          src={imgUrl}
-                          alt={item.title}
-                          className={`mission-switch-img ${activeInitiative === item.id ? 'active' : ''}`}
-                        />
-                      );
-                    })}
-                  </div>
-                </div>
-
                 <div className="mission-right">
+                  <h2 className="initiatives-title">Core Initiatives</h2>
                   <div className="mission-list">
                     {initiativesData.map((item) => {
                       const isActive = activeInitiative === item.id;
@@ -525,6 +496,27 @@ export default function AshvkathaApp() {
                             <p className="mission-item-desc">{item.desc}</p>
                           )}
                         </div>
+                      );
+                    })}
+                  </div>
+                </div>
+
+                <div className="mission-left">
+                  <div className="mission-image-frame">
+                    {initiativesData.map((item) => {
+                      let imgUrl = "";
+                      if (item.id === 'init-1') imgUrl = "https://cms.vantara.in/uploads/Rescue_And_Recovery_Jun_26_463d31b9cc.jpg";
+                      else if (item.id === 'init-2') imgUrl = "https://cms.vantara.in/uploads/Treatment_And_Care_Jun_26_2dbaa71af8.jpg";
+                      else if (item.id === 'init-3') imgUrl = "https://cms.vantara.in/uploads/Rehabilitation_Support_Jun_26_55df7e1e73.JPG";
+                      else if (item.id === 'init-4') imgUrl = "https://cms.vantara.in/uploads/Conservation_Breeding_Rewilding_Jun_26_011eb6d68e.jpg";
+
+                      return (
+                        <img
+                          key={item.id}
+                          src={imgUrl}
+                          alt={item.title}
+                          className={`mission-switch-img ${activeInitiative === item.id ? 'active' : ''}`}
+                        />
                       );
                     })}
                   </div>
@@ -844,11 +836,7 @@ export default function AshvkathaApp() {
 
             {/* Gallery Collage Section */}
             <section className="section-container reveal-on-scroll" style={{ minHeight: 'auto', paddingBottom: '120px' }}>
-              <div className="section-title-wrap">
-                <span className="section-sub">Our Inhabitants</span>
-                <h2 className="title-line">Sanctuary Gallery</h2>
-                <div className="divider" />
-              </div>
+
 
               <div className="collage-grid reveal-group">
                 {galleryImages.map((imgUrl, index) => (
