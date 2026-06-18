@@ -24,17 +24,30 @@ const GALLERY_POOL = [
   "https://cms.vantara.in/uploads/Collage_8_Jun_26_7dc264cb5b.jpg",
   "https://cms.vantara.in/uploads/Collage_9_Jun_26_4a1dc4031b.jpg",
   "https://cms.vantara.in/uploads/Collage_10_Jun_26_1adb3f8ee0.jpg",
-  "https://cms.vantara.in/uploads/Collage_11_Jun_26_435d77b522.jpg",
+  "https://cms.vantara.in/uploads/Kingdom_of_Leopards_921828dfa5.jpg",
+  "https://cms.vantara.in/uploads/Savannah_Plains_413f42d26b.jpg",
   "https://cms.vantara.in/uploads/03_Desktop_Giraffe_0001_267ed80a1e.jpg",
   "https://cms.vantara.in/uploads/02_Desktop_Jaguar_0001_3e8acc25e9.jpg",
   "https://cms.vantara.in/uploads/01_Desktop_Parrot_0001_2d10123364.jpg",
-  "https://cms.vantara.in/uploads/Kingdom_of_Leopards_921828dfa5.jpg",
-  "https://cms.vantara.in/uploads/Savannah_Plains_413f42d26b.jpg",
   "https://cms.vantara.in/uploads/Leopard_Aerieal_View_3566a2cab0.jpg",
   "https://cms.vantara.in/uploads/Adult_Lions_0f0d9ee669.jpeg",
   "https://cms.vantara.in/uploads/Tarzan_Elephant_cf18e56318.jpg",
   "https://cms.vantara.in/uploads/Indian_Leopard_Landscape_1_1686fc5d60.jpg",
-  "https://cms.vantara.in/uploads/image_8_db4e09eeee.jpg"
+  "https://cms.vantara.in/uploads/image_8_db4e09eeee.jpg",
+  "https://cms.vantara.in/uploads/Elephant_Jacuzzi_Bath_4f62e4eeb7.jpg",
+  "https://cms.vantara.in/uploads/Trunks_of_Elephants_e5425b938a.jpg",
+  "https://cms.vantara.in/uploads/Rescue_And_Recovery_Jun_26_463d31b9cc.jpg",
+  "https://cms.vantara.in/uploads/Rehabilitation_Support_Jun_26_55df7e1e73.JPG",
+  "https://cms.vantara.in/uploads/Conservation_Breeding_Rewilding_Jun_26_011eb6d68e.jpg",
+  "https://cms.vantara.in/uploads/A_Healing_Home_Jun_26_2aa0a60303.jpg",
+  "https://cms.vantara.in/uploads/Nutrition_Enhanced_With_Science_Jun_26_998ad5d159.jpg",
+  "https://cms.vantara.in/uploads/Sustaining_Wildlife_Future_May_26_e878e2683d.jpg",
+  "https://cms.vantara.in/uploads/image_15_21c7f2489e.jpg",
+  "https://cms.vantara.in/uploads/image_16_a6f5c49337.jpg",
+  "https://cms.vantara.in/uploads/image_20_18ab1d38b6.jpg",
+  "https://cms.vantara.in/uploads/image_21_0b011e362c.jpg",
+  "https://cms.vantara.in/uploads/image_22_cadf47513a.jpg",
+  "https://cms.vantara.in/uploads/KOE_1_922cdbb1fa.png"
 ];
 
 const HEALING_SLIDES = [
@@ -42,7 +55,7 @@ const HEALING_SLIDES = [
     label: "ACRES OF SAFE HAVEN",
     value: "3,500+",
     text: "Set within vast, carefully designed grounds in Junagadh, Ashvkatha is equipped with state-of-the-art facilities.",
-    bgColor: "#000000",
+    bgColor: "#0c1a14",
     videoUrl: "https://cms.vantara.in/uploads/desktop_parrot_3456e1d113.mp4",
     coverUrl: "https://cms.vantara.in/uploads/01_Desktop_Parrot_0001_2d10123364.jpg",
     btnText: "See Area"
@@ -51,7 +64,7 @@ const HEALING_SLIDES = [
     label: "SPECIES PROTECTED",
     value: "2,000+",
     text: "Ashvkatha is home to a rich diversity of rescued species who thrive in thoughtfully designed habitats.",
-    bgColor: "#000000",
+    bgColor: "#080808",
     videoUrl: "https://cms.vantara.in/uploads/desktop_jaguar_9124c11945.mp4",
     coverUrl: "https://cms.vantara.in/uploads/02_Desktop_Jaguar_0001_3e8acc25e9.jpg",
     btnText: "See Species"
@@ -60,7 +73,7 @@ const HEALING_SLIDES = [
     label: "DEDICATED STAFF",
     value: "3,500+",
     text: "Behind Ashvkatha’s success is a dedicated team of experts and caregivers working round the clock to support recovery.",
-    bgColor: "#000000",
+    bgColor: "#120d0b",
     videoUrl: "https://cms.vantara.in/uploads/desktop_giraffe_0ef8634ced.mp4",
     coverUrl: "https://cms.vantara.in/uploads/03_Desktop_Giraffe_0001_267ed80a1e.jpg",
     btnText: "See Staff"
@@ -125,8 +138,12 @@ export default function AshvkathaApp() {
   const [lightboxImage, setLightboxImage] = useState<string | null>(null);
 
   const shuffleGallery = () => {
-    const shuffled = [...GALLERY_POOL].sort(() => Math.random() - 0.5);
-    setGalleryImages(shuffled.slice(0, 11));
+    const pool = [...GALLERY_POOL];
+    for (let i = pool.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [pool[i], pool[j]] = [pool[j], pool[i]];
+    }
+    setGalleryImages(pool.slice(0, 11));
   };
 
   // Auto control background video playback for seamless dual-player
@@ -152,7 +169,7 @@ export default function AshvkathaApp() {
     }
   }, [isBgPlaying, activeSection, currentVideoIndex]);
 
-  // Handle ambient background audio (Vantara meditation music)
+  // Handle ambient background audio (Ashvkatha meditation music)
   useEffect(() => {
     const audio = audioRef.current;
     if (audio) {
@@ -192,7 +209,10 @@ export default function AshvkathaApp() {
 
   // Initial gallery shuffle
   useEffect(() => {
-    shuffleGallery();
+    const timer = setTimeout(() => {
+      shuffleGallery();
+    }, 0);
+    return () => clearTimeout(timer);
   }, []);
 
   // Hourly News Rotation Hook
@@ -316,7 +336,7 @@ export default function AshvkathaApp() {
             window.scrollTo({ top: 0, behavior: 'smooth' });
           }}>
             <span className="nav-logo-main">ASHVKATHA</span>
-            <span className="nav-logo-sub">Every Life Matters</span>
+            <span className="nav-logo-sub">Every Thing Matters</span>
           </div>
 
           <button
@@ -418,36 +438,9 @@ export default function AshvkathaApp() {
               </div>
             </div>
 
-            {/* News & Highlights Section */}
-            <section id="news" className="section-container reveal-on-scroll" style={{ minHeight: 'auto', paddingBottom: '100px' }}>
-              <div className="section-title-wrap">
-                <span className="section-sub">Latest Updates</span>
-                <h2 className="title-line">News & Highlights</h2>
-                <div className="divider" />
-              </div>
-
-              <div className="slider-container">
-                <div className="news-grid reveal-group">
-                  {displayedNews.map((item) => (
-                    <div key={item.id} className="news-card glass reveal-item">
-                      <span className="news-date">{item.date}</span>
-                      <h3 className="news-title">{item.title}</h3>
-                      <div className="divider" style={{ width: '60px', margin: '12px 0' }} />
-                      <button
-                        className="card-link"
-                        style={{ background: 'none', border: 'none', cursor: 'pointer', padding: 0 }}
-                        onClick={() => setModalContent({ title: item.title, text: item.desc })}
-                      >
-                        read more
-                      </button>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            </section>
 
             {/* Core Initiatives Section */}
-            <section id="initiatives" className="section-container reveal-on-scroll" style={{ minHeight: 'auto', paddingBottom: '120px' }}>
+            <section id="initiatives" className="section-container reveal-on-scroll" style={{ minHeight: '100vh' }}>
               <div className="mission-grid">
                 <div className="mission-right">
                   <h2 className="initiatives-title">Core Initiatives</h2>
@@ -529,7 +522,8 @@ export default function AshvkathaApp() {
               className="section-healing reveal-on-scroll"
               style={{ 
                 backgroundColor: HEALING_SLIDES[activeHealingStatIdx].bgColor,
-                transition: 'background-color 0.8s ease'
+                transition: 'background-color 0.8s ease',
+                minHeight: '100vh'
               }}
             >
               <div className="healing-container">
@@ -599,7 +593,7 @@ export default function AshvkathaApp() {
             </section>
 
             {/* Welfare and Rescue Sliders Section */}
-            <section id="care-sliders" className="section-container reveal-on-scroll" style={{ minHeight: 'auto', paddingBottom: '120px' }}>
+            <section id="care-sliders" className="section-container reveal-on-scroll" style={{ minHeight: '100vh' }}>
               {/* RKTEWT & GZRRC Switcher */}
               <div className="tabs-header">
                 <button
@@ -621,7 +615,6 @@ export default function AshvkathaApp() {
                   <div className="care-slider-info">
                     <span className="section-sub">Elephant Care</span>
                     <h3 className="title-line" style={{ textTransform: 'none' }}>Elephant Care Centre</h3>
-                    <div className="divider" />
                     <p className="care-slider-desc">
                       Across 998 acres of protected land, the Radhe Krishna Temple Elephant Welfare Trust (RKTEWT) shelters more than 260 elephants rescued from logging, circuses, and city streets. Here, they rediscover freedom, friendship, and the joy of living.
                     </p>
@@ -684,7 +677,6 @@ export default function AshvkathaApp() {
                   <div className="care-slider-info">
                     <span className="section-sub">Wildlife Rescue</span>
                     <h3 className="title-line" style={{ textTransform: 'none' }}>Wild Animals Rescue Centre</h3>
-                    <div className="divider" />
                     <p className="care-slider-desc">
                       The Greens Zoological, Rescue and Rehabilitation Centre (GZRRC) provides a safe haven for rescued, injured, and orphaned wildlife in a 3,500+ acre habitat, providing clinical care and nutrition.
                     </p>
@@ -746,13 +738,7 @@ export default function AshvkathaApp() {
             </section>
 
             {/* Mission Section */}
-            <section id="mission" className="section-container reveal-on-scroll" style={{ minHeight: 'auto', paddingBottom: '120px' }}>
-              <div className="section-title-wrap">
-                <span className="section-sub">Our Purpose</span>
-                <h2 className="title-line">Mission</h2>
-                <div className="divider" />
-              </div>
-
+            <section id="mission" className="section-container reveal-on-scroll" style={{ minHeight: '100vh' }}>
               <div className="mission-grid">
                 <div className="mission-left">
                   <div className="mission-image-frame">
@@ -773,6 +759,7 @@ export default function AshvkathaApp() {
                 </div>
 
                 <div className="mission-right">
+                  <h2 className="initiatives-title">Mission</h2>
                   <div className="mission-list">
                     {[
                       {
@@ -835,7 +822,7 @@ export default function AshvkathaApp() {
             </section>
 
             {/* Gallery Collage Section */}
-            <section className="section-container reveal-on-scroll" style={{ minHeight: 'auto', paddingBottom: '120px' }}>
+            <section className="section-container reveal-on-scroll" style={{ minHeight: '100vh' }}>
 
 
               <div className="collage-grid reveal-group">
@@ -863,7 +850,6 @@ export default function AshvkathaApp() {
             <div className="section-title-wrap">
               <span className="section-sub">Where Healing Begins</span>
               <h2 className="title-line">Founding Vision</h2>
-              <div className="divider" />
             </div>
 
             {/* Founders panel */}
@@ -872,7 +858,6 @@ export default function AshvkathaApp() {
                 <div key={founder.id} className="founder-card glass reveal-item">
                   <span className="founder-role">{founder.role}</span>
                   <h3 className="founder-name">{founder.name}</h3>
-                  <div className="divider" style={{ width: '50px' }} />
                   <p className="founder-quote">{"\""}{founder.quote}{"\""}</p>
                 </div>
               ))}
@@ -898,13 +883,11 @@ export default function AshvkathaApp() {
             <div className="section-title-wrap reveal-on-scroll" style={{ marginTop: '60px' }}>
               <span className="section-sub">Expert Facilities</span>
               <h2 className="title-line">Nurture and Care</h2>
-              <div className="divider" />
             </div>
             <div className="facilities-grid reveal-group">
               {facilitiesData.map((fac) => (
                 <div key={fac.id} className="facility-card glass reveal-item">
                   <h4 className="facility-title">{fac.title}</h4>
-                  <div className="divider" style={{ width: '40px', margin: '8px 0' }} />
                   <button
                     className="card-link"
                     style={{ background: 'none', border: 'none', cursor: 'pointer', padding: 0 }}
@@ -920,7 +903,6 @@ export default function AshvkathaApp() {
             <div className="section-title-wrap reveal-on-scroll" style={{ marginTop: '80px' }}>
               <span className="section-sub">Hardships to Healing</span>
               <h2 className="title-line">Tales of Rescue</h2>
-              <div className="divider" />
             </div>
 
             <div className="slider-container reveal-on-scroll">
@@ -936,7 +918,6 @@ export default function AshvkathaApp() {
                         </h5>
                       </div>
                       <div>
-                        <div className="divider" style={{ width: '50px' }} />
                         <button
                           className="card-link"
                           style={{ background: 'none', border: 'none', cursor: 'pointer', padding: 0 }}
@@ -973,79 +954,105 @@ export default function AshvkathaApp() {
 
         {/* Section 5: Resources */}
         {activeSection === 'resources' && (
-          <section id="resources" className="section-container reveal-on-scroll" style={{ minHeight: '100vh' }}>
-            <div className="section-title-wrap">
-              <span className="section-sub">Discoveries & Research</span>
-              <h2 className="title-line">Insights & Evolution</h2>
-              <div className="divider" />
-            </div>
-
-            <div style={{ marginBottom: '40px' }} className="reveal-on-scroll">
-              <div className="filters-container">
-                {['All', 'Media', 'Research Papers', 'General Articles', 'Legal', 'Annual Report'].map((cat) => (
-                  <button
-                    key={cat}
-                    className={`filter-btn ${resourceFilter === cat ? 'active' : ''}`}
-                    onClick={() => setResourceFilter(cat)}
-                  >
-                    {cat}
-                  </button>
-                ))}
+          <>
+            {/* News & Highlights Section */}
+            <section id="news" className="section-container reveal-on-scroll" style={{ minHeight: '100vh' }}>
+              <div className="section-title-wrap">
+                <span className="section-sub">Latest Updates</span>
+                <h2 className="title-line">News & Highlights</h2>
               </div>
 
-              <div style={{ display: 'flex', gap: '16px', flexWrap: 'wrap' }}>
-                <input
-                  type="text"
-                  placeholder="Search resources..."
-                  className="form-input"
-                  style={{ flex: '1', minWidth: '250px' }}
-                  value={resourceSearch}
-                  onChange={(e) => setResourceSearch(e.target.value)}
-                />
-                <select
-                  className="form-select"
-                  value={resourceSort}
-                  onChange={(e) => setResourceSort(e.target.value)}
-                >
-                  <option value="new">Newest First</option>
-                  <option value="old">Oldest First</option>
-                </select>
-              </div>
-            </div>
-
-            {/* Resources list */}
-            <div className="resources-grid reveal-group">
-              {sortedResources.map((item) => (
-                <div key={item.id} className="resource-card glass reveal-item">
-                  <div>
-                    <span className="resource-cat">{item.category}</span>
-                    <h4 className="resource-title">{item.title}</h4>
-                  </div>
-                  <div>
-                    <div className="divider" style={{ width: '100%', margin: '15px 0' }} />
-                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+              <div className="slider-container">
+                <div className="news-grid reveal-group">
+                  {displayedNews.map((item) => (
+                    <div key={item.id} className="news-card glass reveal-item">
+                      <span className="news-date">{item.date}</span>
+                      <h3 className="news-title">{item.title}</h3>
                       <button
-                        className="download-btn"
+                        className="card-link"
+                        style={{ background: 'none', border: 'none', cursor: 'pointer', padding: 0 }}
                         onClick={() => setModalContent({ title: item.title, text: item.desc })}
                       >
-                        Read abstract
+                        read more
                       </button>
-                      <a
-                        href="#"
-                        className="download-btn"
-                        onClick={(e) => {
-                          e.preventDefault();
-                          alert(`Downloading PDF for: ${item.title}`);
-                        }}
-                      >
-                        PDF
-                      </a>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </section>
+
+            <section id="resources" className="section-container reveal-on-scroll" style={{ minHeight: '100vh' }}>
+              <div className="section-title-wrap">
+                <span className="section-sub">Discoveries & Research</span>
+                <h2 className="title-line">Insights & Evolution</h2>
+              </div>
+
+              <div style={{ marginBottom: '40px' }} className="reveal-on-scroll">
+                <div className="filters-container">
+                  {['All', 'Media', 'Research Papers', 'General Articles', 'Legal', 'Annual Report'].map((cat) => (
+                    <button
+                      key={cat}
+                      className={`filter-btn ${resourceFilter === cat ? 'active' : ''}`}
+                      onClick={() => setResourceFilter(cat)}
+                    >
+                      {cat}
+                    </button>
+                  ))}
+                </div>
+
+                <div style={{ display: 'flex', gap: '16px', flexWrap: 'wrap' }}>
+                  <input
+                    type="text"
+                    placeholder="Search resources..."
+                    className="form-input"
+                    style={{ flex: '1', minWidth: '250px' }}
+                    value={resourceSearch}
+                    onChange={(e) => setResourceSearch(e.target.value)}
+                  />
+                  <select
+                    className="form-select"
+                    value={resourceSort}
+                    onChange={(e) => setResourceSort(e.target.value)}
+                  >
+                    <option value="new">Newest First</option>
+                    <option value="old">Oldest First</option>
+                  </select>
+                </div>
+              </div>
+
+              {/* Resources list */}
+              <div className="resources-grid reveal-group">
+                {sortedResources.map((item) => (
+                  <div key={item.id} className="resource-card glass reveal-item">
+                    <div>
+                      <span className="resource-cat">{item.category}</span>
+                      <h4 className="resource-title">{item.title}</h4>
+                    </div>
+                    <div>
+                      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                        <button
+                          className="download-btn"
+                          onClick={() => setModalContent({ title: item.title, text: item.desc })}
+                        >
+                          Read abstract
+                        </button>
+                        <a
+                          href="#"
+                          className="download-btn"
+                          onClick={(e) => {
+                            e.preventDefault();
+                            alert(`Downloading PDF for: ${item.title}`);
+                          }}
+                        >
+                          PDF
+                        </a>
+                      </div>
                     </div>
                   </div>
-                </div>
-              ))}
-            </div>
-          </section>
+                ))}
+              </div>
+            </section>
+          </>
         )}
 
         {/* Section 6: Contact & FAQ */}
@@ -1081,12 +1088,12 @@ export default function AshvkathaApp() {
                 <div className="contact-info-block">
                   <h4>{"For General Queries"}</h4>
                   <a href="mailto:contact@ashvkatha.in">{"contact@ashvkatha.in"}</a>
-                  <p style={{ marginTop: '4px', fontWeight: 'bold' }}>{"+91 90002 02222"}</p>
+                  <p style={{ marginTop: '4px', fontWeight: 'bold' }}>{"+91 2009 0222 22"}</p>
                 </div>
                 <div className="contact-info-block">
                   <h4>{"For Media"}</h4>
                   <a href="mailto:media@ashvkatha.in">{"media@ashvkatha.in"}</a>
-                  <p style={{ marginTop: '4px', fontWeight: 'bold' }}>{"+91 99002 20002"}</p>
+                  <p style={{ marginTop: '4px', fontWeight: 'bold' }}>{"+91 0002 2222 22"}</p>
                 </div>
                 <div className="contact-info-block">
                   <h4>{"For Career Opportunities"}</h4>
@@ -1230,7 +1237,6 @@ export default function AshvkathaApp() {
               <div className="section-title-wrap">
                 <span className="section-sub">{"Common Queries"}</span>
                 <h2 className="title-line">{"Frequently Asked Questions"}</h2>
-                <div className="divider" />
               </div>
 
               <div className="accordion-wrapper" style={{ margin: '0 auto', maxWidth: '850px' }}>
@@ -1299,7 +1305,7 @@ export default function AshvkathaApp() {
         {/* Branding Separator Band */}
         <div className="branding-separator-band">
           <span className="branding-logo-main">{"ASHVKATHA"}</span>
-          <span className="branding-logo-sub">{"Every Life Matters"}</span>
+          <span className="branding-logo-sub">{"Every Thing Matters"}</span>
         </div>
 
         {/* Footer */}
@@ -1336,12 +1342,12 @@ export default function AshvkathaApp() {
               <div className="footer-contacts-list">
                 <div className="footer-contact-item">
                   <span className="footer-contact-label">{"FOR GENERAL INQUIRIES"}</span>
-                  <p className="footer-contact-phone">{"+91 90002 02222"}</p>
+                  <p className="footer-contact-phone">{"+91 2009 0222 22"}</p>
                   <a href="mailto:contact@ashvkatha.in" className="footer-contact-email">{"contact@ashvkatha.in"}</a>
                 </div>
                 <div className="footer-contact-item">
                   <span className="footer-contact-label">{"FOR MEDIA"}</span>
-                  <p className="footer-contact-phone">{"+91 99002 20002"}</p>
+                  <p className="footer-contact-phone">{"+91 0002 2222 22"}</p>
                   <a href="mailto:media@ashvkatha.in" className="footer-contact-email">{"media@ashvkatha.in"}</a>
                 </div>
                 <div className="footer-contact-item">
@@ -1514,7 +1520,6 @@ export default function AshvkathaApp() {
             <h3 className="title-line" style={{ fontSize: '1.4rem', paddingRight: '20px' }}>
               {modalContent.title}
             </h3>
-            <div className="divider" style={{ width: '80px' }} />
             <p style={{ color: 'var(--text-gray)', lineHeight: '1.7', fontSize: '0.98rem' }}>
               {modalContent.text}
             </p>

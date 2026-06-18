@@ -8,7 +8,7 @@ Ashvkatha is a premium, highly aesthetic web portal dedicated to wildlife rescue
 
 ### 1. Seamless Ambient Media
 - **Seamless Dual-Video Loop**: An advanced React-managed double HTML5 video player preloads and loops background footage seamlessly without any black flashes or transition lag.
-- **Ambient Soundtrack**: Integrates Vantara's official ambient audio (meditative tracks) toggled via a premium custom unmute button in the bottom-right corner.
+- **Ambient Soundtrack**: Integrates Ashvkatha's official ambient audio (meditative tracks) toggled via a premium custom unmute button in the bottom-right corner.
 
 ### 2. High-End Visual Transitions
 - **Masked Line Tagline Reveal**: On initial load, the hero tagline words slide up sequentially behind masks for an elegant, premium look.

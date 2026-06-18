@@ -18,13 +18,6 @@ export interface CareCard {
   image?: string;
 }
 
-export interface TimelineItem {
-  id: string;
-  title: string;
-  subtitle: string;
-  desc: string;
-}
-
 export interface ResourceItem {
   id: string;
   title: string;
@@ -233,80 +226,6 @@ export const gzrrcCards: CareCard[] = [
   }
 ];
 
-export const timelineData: TimelineItem[] = [
-  {
-    id: 'time-1',
-    title: 'Gauri, Our First Rescue',
-    subtitle: 'Rescue of Gauri The Elephant',
-    desc: 'Rescued after years in chains, her steps at Ashvkatha laid our foundation for compassionate care for all beings.'
-  },
-  {
-    id: 'time-2',
-    title: 'Ashvkatha Foundation Day',
-    subtitle: 'Inauguration of Ashvkatha',
-    desc: 'Inaugurated by the Honourable Prime Minister last year, recognising a national vision for wildlife care.'
-  },
-  {
-    id: 'time-3',
-    title: 'Global Humanitarian Award',
-    subtitle: 'Shri. D M Gida Honoured',
-    desc: 'Our founder, Shri. D M Gida, became the youngest and first Asian to receive a global honour for wildlife conservation.'
-  },
-  {
-    id: 'time-4',
-    title: 'World’s Largest Elephant Hospital',
-    subtitle: 'Elephant Hospital',
-    desc: 'Advanced elephant hospital designed to treat three elephants simultaneously with specialist veterinary care.'
-  },
-  {
-    id: 'time-5',
-    title: 'Prani Mitra Award',
-    subtitle: 'Ashvkatha receives Prani Mitra Award',
-    desc: 'Honoured with the national Prani Mitra Award 2025 for leadership in animal welfare and conservation.'
-  },
-  {
-    id: 'time-6',
-    title: 'Rewilding Spotted Deer',
-    subtitle: 'Rewilding Spotted Deer',
-    desc: 'Rewilded 56 spotted deer into Barda Wildlife Sanctuary, strengthening ecosystem resilience.'
-  },
-  {
-    id: 'time-7',
-    title: 'Humane Conservation Certification',
-    subtitle: 'Certified by the Global Humane Society',
-    desc: 'Certified by the Global Humane Society for meeting the highest standards of humane conservation.'
-  },
-  {
-    id: 'time-8',
-    title: 'National Referral Centre',
-    subtitle: 'National Referral Centre for Wildlife',
-    desc: 'Recognised as the National Referral Centre for Wildlife (West Zone) under the One Health framework.'
-  },
-  {
-    id: 'time-9',
-    title: 'World’s Largest Wildlife Hospital',
-    subtitle: 'World’s Largest Wildlife Hospital',
-    desc: 'Established a multispecialty wildlife hospital for advanced diagnostics, surgery and long-term care.'
-  },
-  {
-    id: 'time-10',
-    title: 'SEAZA Membership',
-    subtitle: 'Ashvkatha Becomes SEAZA Member',
-    desc: 'Joined the Southeast Asian zoo network to exchange expertise and strengthen welfare practices.'
-  },
-  {
-    id: 'time-11',
-    title: 'Rewilding Turtles in Indonesia',
-    subtitle: 'Turtles in Indonesia',
-    desc: 'Rewilded 20 snake-necked turtles in Indonesia, supporting native populations and ecosystems.'
-  },
-  {
-    id: 'time-12',
-    title: 'EARAZA Membership',
-    subtitle: 'Global Zoo Collaborations',
-    desc: 'Joined the Eurasian zoo association to collaborate on welfare standards, research and training.'
-  }
-];
 
 export const foundersData: FounderItem[] = [
   {
